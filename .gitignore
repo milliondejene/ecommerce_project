@@ -1,86 +1,18 @@
-# Python Bytecode
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Django Specific
-*.log
-*.pot
-*.pyc
-*.pyo
-*.sqlite3
+# Ignore database file
 db.sqlite3
 
-# Django Migrations
-*/migrations/*
-!*/migrations/__init__.py
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
 
-# Environment Variables
-.env
-.env.local
-.env.*.local
-*.env
+# Ignore migrations cache
+**/migrations/__pycache__/
 
-# Media/Static Files
-/mediacdn/
-/static_cdn/
-/media/
-/staticfiles/
-
-# Virtual Environment
+# Ignore Virtual Environments
 venv/
 env/
-ENV/
-.venv/
-.pyenv/
 
-# VS Code and IDE Settings
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-
-# OS Generated Files
+# Ignore system files
 .DS_Store
 Thumbs.db
-desktop.ini
-
-# Test Coverage Reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-
-# MyPy and Pyright
-.mypy_cache/
-.pyright/
-
-# PyInstaller
-*.spec
-dist/
-build/
-
-# Jupyter Notebooks
-.ipynb_checkpoints/
-
-# Celery & Task Queues
-celerybeat-schedule
-celerybeat.pid
-
-# Local Settings
-local_settings.py
-
-# Other
-*.log
-*.pot
-*.mo
-*.swp
-*~
-
-# Security
-secrets.json
