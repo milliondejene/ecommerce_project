@@ -1,4 +1,5 @@
 import datetime
+from datetime import datetime
 from django.db import models
 from django.db.models import F, Sum
 
@@ -65,11 +66,12 @@ class InvoiceManager(models.Manager):
 class Invoice(models.Model):
     """Represents an invoice sent to a customer."""
     
+    
     STATUS_CHOICES = [
         ('unpaid', 'Unpaid'),
         ('paid', 'Paid'),
     ]
-
+    
     customer_name = models.CharField(max_length=255, help_text="Full name of the customer.")
     invoice_date = models.DateField(auto_now_add=True, help_text="The date when the invoice was created.")
     due_date = models.DateField(help_text="The due date by which payment should be made.")
@@ -91,10 +93,17 @@ class Invoice(models.Model):
         return self.line_items.aggregate(
             total=Sum(F('quantity') * F('price_each'))
         )['total'] or 0.00
+
     def mark_as_paid(self):
         """Custom method to mark the invoice as paid."""
         self.status = 'paid'
         self.save()  # Save the updated status to the database
+
+    def highlight_overdue(self):
+        """Custom method to highlight overdue invoices."""
+        if self.status == 'unpaid' and self.due_date and self.due_date < datetime.date.today():
+            return True
+        return False
 
 
 class InvoiceLineItem(models.Model):

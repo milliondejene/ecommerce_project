@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ecommerce_app',  # Our new app
+    'import_export',
 ]
 
 MIDDLEWARE = [

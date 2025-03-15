@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{ invoice.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .invoice-box { width: 80%; margin: auto; padding: 20px; border: 1px solid #ddd; }
+        h1 { text-align: center; }
+        .details, .line-items { width: 100%; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <h1>Invoice #{{ invoice.id }}</h1>
+        <p><strong>Customer:</strong> {{ invoice.customer_name }}</p>
+        <p><strong>Invoice Date:</strong> {{ invoice.invoice_date }}</p>
+        <p><strong>Due Date:</strong> {{ invoice.due_date }}</p>
+        
+        <div class="line-items">
+            <h3>Items</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price Each</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in invoice.line_items.all %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price_each }}</td>
+                        <td>${{ item.quantity|floatformat:2|add:item.price_each }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Total: ${{ invoice.total_price }}</h2>
+    </div>
+</body>
+</html>
