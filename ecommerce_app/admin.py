@@ -55,11 +55,6 @@ class InvoiceAdmin(ExportMixin, admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         return ('total_price', 'overdue_highlight')  # Read-only fields
-
-    def overdue_highlight(self, obj):
-        if obj.status == 'unpaid' and obj.due_date < now().date():
-            return format_html('<span style="color: red; font-weight: bold;">OVERDUE</span>')
-        return "On Time"
     def overdue_highlight(self, obj):
         if obj.status == 'unpaid' and obj.due_date and obj.due_date < now().date():
             return format_html('<span style="color: red; font-weight: bold;">OVERDUE</span>')
@@ -78,7 +73,7 @@ class InvoiceAdmin(ExportMixin, admin.ModelAdmin):
 
     def print_invoice(self, request, invoice_id):
         invoice = Invoice.objects.get(pk=invoice_id)
-        return render(request, 'admin/invoice_print.html', {'invoice': invoice})
+        return render(request, 'ecommerce_app/invoice_print.html', {'invoice': invoice})
 
     def print_link(self, obj):
         return format_html('<a href="{}" target="_blank">Print</a>', f"/admin/app/invoice/{obj.id}/print/")
