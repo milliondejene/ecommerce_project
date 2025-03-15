@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.timezone import now
-from django.db.models import Sum
+from django.db.models import Sum, F
 from .models import Product, PurchaseOrder, PurchaseOrderLineItem, Invoice, InvoiceLineItem
 
 class PurchaseOrderLineItemInline(admin.TabularInline):
@@ -30,7 +30,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     actions = ['mark_as_paid']
 
     def total_price(self, obj):
-        total = obj.line_items.aggregate(total=Sum('quantity' * 'price_each'))['total']
+        total = obj.line_items.aggregate(total=Sum(F('quantity') * F('price_each')))['total']
         return f"${total:.2f}" if total else "$0.00"
 
     total_price.short_description = "Total Price"
