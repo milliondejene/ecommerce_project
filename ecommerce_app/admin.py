@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.timezone import now
 from django.db.models import Sum, F
-from django.urls import path
+from django.urls import path, reverse
+from django.utils.safestring import mark_safe
 from django.shortcuts import render
 from django.http import HttpResponse
 from openpyxl import Workbook
@@ -74,10 +75,11 @@ class InvoiceAdmin(ExportMixin, admin.ModelAdmin):
     def print_invoice(self, request, invoice_id):
         invoice = Invoice.objects.get(pk=invoice_id)
         return render(request, 'ecommerce_app/invoice_print.html', {'invoice': invoice})
-
+        
     def print_link(self, obj):
-        return format_html('<a href="{}" target="_blank">Print</a>', f"/admin/app/invoice/{obj.id}/print/")
-    
+         return mark_safe(f'<a href="{reverse("print_invoice", args=[obj.pk])}" target="_blank">Print</a>')
+
+    print_link.allow_tags = True
     print_link.short_description = "Print Invoice"
 
     # Export Invoices to XLSX
